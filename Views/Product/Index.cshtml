@@ -1,0 +1,59 @@
+﻿@model IEnumerable<Coffee_POS.Models.Product>
+@{
+    ViewBag.Title = "Products";
+}
+
+<div class="d-flex justify-content-between mb-3">
+    <h3 class="fw-bold">Products</h3>
+    <a href="/Product/Create" class="btn btn-primary">
+        <i class="fa fa-plus"></i> Add Product
+    </a>
+</div>
+
+<table class="table table-striped shadow-sm bg-white">
+    <thead class="table-dark">
+        <tr>
+            <th>#</th>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Qty</th>
+            <th width="170">Action</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var p in Model)
+        {
+            <tr>
+                <td>@p.Id</td>
+
+                <td>
+                    @if (!string.IsNullOrEmpty(p.Image))
+                    {
+                        <img src="/images/products/@p.Image" width="55" class="rounded" />
+                    }
+                    else
+                    {
+                        <img src="/images/no-image.png" width="55" class="rounded" />
+                    }
+                </td>
+
+                <td>@p.Name</td>
+                <td>@p.Category?.Name</td>
+                <td>@p.Qty</td>
+
+                <td>
+                    <a href="/Product/Edit/@p.Id" class="btn btn-warning btn-sm">
+                        <i class="fa fa-edit"></i> Edit
+                    </a>
+
+                    <a onclick="return confirm('Delete this product?')"
+                       href="/Product/Delete/@p.Id" class="btn btn-danger btn-sm">
+                        <i class="fa fa-trash"></i> Delete
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

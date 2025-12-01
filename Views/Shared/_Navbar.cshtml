@@ -1,0 +1,12 @@
+﻿<nav class="navbar navbar-expand-lg navbar-custom px-3 fixed-top">
+    <div class="container-fluid">
+        <a class="navbar-brand text-white fw-bold" href="/Dashboard/Index">
+            <i class="fa-solid fa-mug-hot"></i> Coffee POS
+        </a>
+
+        <div class="d-flex text-white">
+            <span class="me-4">Hello, @Context.Session.GetString("UserName")</span>
+            <a href="/Auth/Logout" class="btn btn-danger btn-sm">Logout</a>
+        </div>
+    </div>
+</nav>

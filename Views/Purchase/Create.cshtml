@@ -1,0 +1,107 @@
+﻿@{
+    ViewBag.Title = "Create Purchase";
+    var products = ViewBag.Products as List<Coffee_POS.Models.Product>;
+}
+
+<h3 class="fw-bold mb-4">Create New Purchase</h3>
+
+<form method="post">
+
+    <label class="form-label fw-bold">Supplier Name</label>
+    <input type="text" name="Supplier" class="form-control" required />
+
+    <hr />
+
+    <h5 class="fw-bold">Purchase Items</h5>
+
+    <table class="table table-bordered mt-3">
+        <thead class="table-dark">
+            <tr>
+                <th width="250">Product</th>
+                <th width="120">Qty</th>
+                <th width="150">Cost</th>
+                <th width="50"></th>
+            </tr>
+        </thead>
+
+        <tbody id="item-body"></tbody>
+    </table>
+
+    <button type="button" onclick="addItem()" class="btn btn-secondary">
+        <i class="fa fa-plus"></i> Add Item
+    </button>
+
+    <h3 class="text-end mt-4 fw-bold">Total: $<span id="totalText">0.00</span></h3>
+    <input type="hidden" id="total" name="Total" />
+
+    <button class="btn btn-success mt-4">
+        <i class="fa fa-save"></i> Save Purchase
+    </button>
+
+    <a href="/Purchase/Index" class="btn btn-secondary mt-4">Cancel</a>
+
+</form>
+
+@section Scripts {
+    <script>
+        function addItem() {
+            let html = `
+                <tr>
+                    <td>
+                        <select name="productId" class="form-control" required>
+                            <option value="">-- Product --</option>
+                            ${loadProducts()}
+                        </select>
+                    </td>
+
+                    <td>
+                        <input type="number" name="qty" class="form-control" min="1" value="1" onchange="calcTotal()" required />
+                    </td>
+
+                    <td>
+                        <input type="number" name="cost" class="form-control" step="0.01" value="0" onchange="calcTotal()" required />
+                    </td>
+
+                    <td>
+                        <button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            `;
+
+            document.getElementById("item-body").insertAdjacentHTML("beforeend", html);
+            calcTotal();
+        }
+
+        function loadProducts() {
+            let data = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(products));
+            let options = "";
+
+            data.forEach(p => {
+                options += `<option value="${p.id}">${p.name}</option>`;
+            });
+
+            return options;
+        }
+
+        function removeRow(btn) {
+            btn.closest("tr").remove();
+            calcTotal();
+        }
+
+        function calcTotal() {
+            let rows = document.querySelectorAll("#item-body tr");
+            let total = 0;
+
+            rows.forEach(r => {
+                let qty = parseFloat(r.querySelector("input[name='qty']").value);
+                let cost = parseFloat(r.querySelector("input[name='cost']").value);
+                total += qty * cost;
+            });
+
+            document.getElementById("totalText").innerText = total.toFixed(2);
+            document.getElementById("total").value = total.toFixed(2);
+        }
+    </script>
+}

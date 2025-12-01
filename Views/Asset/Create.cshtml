@@ -1,0 +1,34 @@
+﻿@model Coffee_POS.Models.Asset
+@{
+    ViewBag.Title = "Add Asset";
+    var categories = ViewBag.Categories as List<Coffee_POS.Models.AssetCategory>;
+}
+
+<h3 class="fw-bold mb-3">Add New Asset</h3>
+
+<form method="post">
+
+    <label class="form-label fw-bold">Asset Name</label>
+    <input type="text" name="Name" class="form-control" required />
+
+    <label class="form-label fw-bold mt-3">Category</label>
+    <select name="AssetCategoryId" class="form-control" required>
+        <option value="">-- select category --</option>
+        @foreach (var c in categories)
+        {
+            <option value="@c.Id">@c.Name</option>
+        }
+    </select>
+
+    <label class="form-label fw-bold mt-3">Value ($)</label>
+    <input type="number" step=".01" name="PurchaseValue" class="form-control" required />
+
+    <label class="form-label fw-bold mt-3">Purchase Date</label>
+    <input type="date" name="PurchaseDate" class="form-control" required />
+
+    <button class="btn btn-success mt-4">
+        <i class="fa fa-save"></i> Save Asset
+    </button>
+
+    <a href="/Asset/Index" class="btn btn-secondary mt-4">Cancel</a>
+</form>

@@ -1,0 +1,127 @@
+﻿@{
+    ViewBag.Title = "POS Order";
+    var products = ViewBag.Products as List<Coffee_POS.Models.Product>;
+}
+
+<h3 class="fw-bold mb-3">POS Ordering</h3>
+
+<div class="row">
+
+    <!-- PRODUCT LIST -->
+    <div class="col-md-8">
+        <div class="row">
+            @foreach (var p in products)
+            {
+                <div class="col-md-4 mb-3">
+                    <div class="card shadow-sm p-2">
+
+                        <img src="/images/products/@p.Image"
+                             class="card-img-top"
+                             style="height:150px;object-fit:cover" />
+
+                        <div class="card-body">
+                            <h6 class="fw-bold">@p.Name</h6>
+
+                            <button type="button" class="btn btn-primary btn-sm w-100"
+                                    onclick="addCart('@p.Id', '@p.Name')">
+                                <i class="fa fa-cart-plus"></i> Add
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- CART -->
+    <div class="col-md-4">
+        <div class="card shadow-sm">
+            <div class="card-header bg-dark text-white">
+                <h5 class="m-0">Cart</h5>
+            </div>
+
+            <div class="card-body p-2">
+
+                <form method="post" action="/Order/Checkout">
+
+                    <table class="table table-bordered">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Product</th>
+                                <th width="70">Qty</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="cart-body"></tbody>
+                    </table>
+
+                    <!-- TOTAL ENTERED MANUALLY -->
+                    <label class="fw-bold mt-3">Total Amount ($)</label>
+                    <input type="number" step="0.01" class="form-control" name="totalAmount" required />
+
+                    <label class="fw-bold mt-3">Payment Type</label>
+                    <select name="paymentMethod" class="form-control" required>
+                        <option value="cash">Cash</option>
+                        <option value="aba">ABA</option>
+                        <option value="wing">Wing</option>
+                    </select>
+
+                    <button class="btn btn-success w-100 mt-3">
+                        <i class="fa fa-check"></i> Checkout
+                    </button>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    <script>
+        let cart = [];
+
+        function addCart(id, name) {
+            let item = cart.find(x => x.id === id);
+
+            if (item) {
+                item.qty++;
+            } else {
+                cart.push({ id, name, qty: 1 });
+            }
+
+            renderCart();
+        }
+
+        function renderCart() {
+            let html = "";
+
+            cart.forEach((c, i) => {
+                html += `
+                    <tr>
+                        <td>
+                            ${c.name}
+                            <input type="hidden" name="productId" value="${c.id}" />
+                        </td>
+                        <td>
+                            <input type="number"
+                                   name="qty"
+                                   value="${c.qty}"
+                                   min="1"
+                                   class="form-control form-control-sm"
+                                   onchange="updateQty(${i}, this.value)" />
+                        </td>
+                    </tr>`;
+            });
+
+            document.getElementById("cart-body").innerHTML = html;
+        }
+
+        function updateQty(i, value) {
+            cart[i].qty = parseInt(value);
+            renderCart();
+        }
+    </script>
+}

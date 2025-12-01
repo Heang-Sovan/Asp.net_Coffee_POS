@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Coffee_POS.Models.Order>
+
+@{
+    ViewBag.Title = "Order History";
+}
+
+<h3 class="fw-bold mb-3">Order History</h3>
+
+<table class="table table-striped shadow-sm bg-white">
+    <thead class="table-dark">
+        <tr>
+            <th>#</th>
+            <th>User</th>
+            <th>Product</th>
+            <th>Qty</th>
+            <th>Total ($)</th>
+            <th>Payment</th>
+            <th>Status</th>
+            <th>Date</th>
+            <th width="120">Action</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var o in Model)
+        {
+            <tr>
+                <td>@o.Id</td>
+                <td>@o.User?.Name</td>
+
+                <td>@o.Product?.Name</td>
+
+                <td>@o.Quantity</td>
+
+                <td>$@o.TotalPrice</td>
+
+                <td>@o.PaymentMethod</td>
+
+                <td>
+                    <span class="badge bg-success">@o.Status</span>
+                </td>
+
+                <td>@o.CreatedAt?.ToString("yyyy-MM-dd HH:mm")</td>
+
+                <td>
+                    <a href="/Order/Receipt/@o.Id" class="btn btn-primary btn-sm">
+                        <i class="fa fa-file"></i> View
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>

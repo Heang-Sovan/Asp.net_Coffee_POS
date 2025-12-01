@@ -1,0 +1,36 @@
+﻿@model IEnumerable<dynamic>
+@{
+    ViewBag.Title = "Product Sales Summary";
+}
+
+<h3 class="fw-bold mb-4">Product Sales Summary</h3>
+
+<table class="table table-striped shadow-sm bg-white">
+    <thead class="table-dark">
+        <tr>
+            <th>Product</th>
+            <th>Qty Sold</th>
+            <th>Total Revenue</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @if (!Model.Any())
+        {
+            <tr>
+                <td colspan="3" class="text-center text-muted">No sales available.</td>
+            </tr>
+        }
+        else
+        {
+            foreach (var row in Model)
+            {
+                <tr>
+                    <td>@row.Product</td>
+                    <td>@row.Qty</td>
+                    <td>$@row.Total</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

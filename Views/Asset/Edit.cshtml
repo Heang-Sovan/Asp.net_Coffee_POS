@@ -1,0 +1,70 @@
+﻿@model Coffee_POS.Models.Asset
+@{
+    ViewBag.Title = "Edit Asset";
+    var categories = ViewBag.Categories as List<Coffee_POS.Models.AssetCategory>;
+    var users = ViewBag.Users as List<Coffee_POS.Models.User>;
+}
+
+<h3 class="fw-bold mb-3">Edit Asset</h3>
+
+<form method="post">
+
+    <input type="hidden" name="Id" value="@Model.Id" />
+
+    <label class="form-label fw-bold">Asset Name</label>
+    <input type="text" name="Name" class="form-control" required value="@Model.Name" />
+
+    <label class="form-label fw-bold mt-3">Category</label>
+    <select name="AssetCategoryId" class="form-control">
+        @foreach (var c in categories)
+        {
+            <option value="@c.Id" selected="@(Model.AssetCategoryId == c.Id)">
+                @c.Name
+            </option>
+        }
+    </select>
+
+    <label class="form-label fw-bold mt-3">Assigned To</label>
+    <select name="AssignedUserId" class="form-control">
+        <option value="">-- None --</option>
+        @foreach (var u in users)
+        {
+            <option value="@u.Id" selected="@(Model.AssignedUserId == u.Id)">
+                @u.Name
+            </option>
+        }
+    </select>
+
+    <label class="form-label fw-bold mt-3">Purchase Value ($)</label>
+    <input type="number" step="0.01" name="PurchaseValue" class="form-control" required value="@Model.PurchaseValue" />
+
+    <label class="form-label fw-bold mt-3">Purchase Date</label>
+    <input type="date" name="PurchaseDate" class="form-control"
+           value="@Model.PurchaseDate.ToString("yyyy-MM-dd")" required />
+
+    <label class="form-label fw-bold mt-3">Depreciation Rate (%)</label>
+    <input type="number" step="0.01" name="DepreciationRate" class="form-control" value="@Model.DepreciationRate" />
+
+    <label class="form-label fw-bold mt-3">Status</label>
+    <input type="text" name="Status" class="form-control" value="@Model.Status" />
+
+    <label class="form-label fw-bold mt-3">Unit</label>
+    <input type="text" name="Unit" class="form-control" value="@Model.Unit" />
+
+    <label class="form-label fw-bold mt-3">Warranty Expiry</label>
+    <input type="date" name="WarrantyExpiryDate" class="form-control"
+           value="@(Model.WarrantyExpiryDate?.ToString("yyyy-MM-dd"))" />
+
+    <label class="form-label fw-bold mt-3">Serial Number</label>
+    <input type="text" name="SerialNumber" class="form-control" value="@Model.SerialNumber" />
+
+    <label class="form-label fw-bold mt-3">Notes</label>
+    <textarea name="Notes" class="form-control" rows="3">@Model.Notes</textarea>
+
+    <button class="btn btn-primary mt-4">
+        <i class="fa fa-save"></i> Update Asset
+    </button>
+
+    <a href="/Asset/Index" class="btn btn-secondary mt-4">Cancel</a>
+
+</form>

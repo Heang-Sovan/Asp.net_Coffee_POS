@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Coffee_POS.Models.Order>
+@{
+    ViewBag.Title = "Monthly Sales";
+}
+
+<h3 class="fw-bold mb-4">Monthly Sales Report</h3>
+
+@if (Model.Any())
+{
+    <h5>Total Orders: @Model.Count()</h5>
+    <h5>Total Sales: $@Model.Sum(x => x.TotalPrice)</h5>
+}
+else
+{
+    <h5 class="text-muted">No sales this month.</h5>
+}
+
+<hr />
+
+<table class="table table-striped shadow-sm bg-white">
+    <thead class="table-dark">
+        <tr>
+            <th>#</th>
+            <th>User</th>
+            <th>Product</th>
+            <th>Qty</th>
+            <th>Total ($)</th>
+            <th>Payment</th>
+            <th>Status</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var o in Model)
+        {
+            <tr>
+                <td>@o.Id</td>
+                <td>@o.User?.Name</td>
+
+                <td>@o.Product?.Name</td>
+
+                <td>@o.Quantity</td>
+
+                <td>$@o.TotalPrice</td>
+
+                <td>@o.PaymentMethod</td>
+
+                <td>
+                    <span class="badge bg-success">@o.Status</span>
+                </td>
+
+                <td>@o.CreatedAt?.ToString("yyyy-MM-dd HH:mm")</td>
+            </tr>
+        }
+    </tbody>
+</table>

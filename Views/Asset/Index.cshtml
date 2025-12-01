@@ -1,0 +1,57 @@
+﻿@model List<Coffee_POS.Models.Asset>
+@{
+    ViewBag.Title = "Assets";
+}
+
+<h3 class="fw-bold mb-3">Assets List</h3>
+
+<a href="/Asset/Create" class="btn btn-primary mb-3">
+    <i class="fa fa-plus"></i> Add New Asset
+</a>
+
+<table class="table table-hover table-bordered align-middle">
+    <thead class="table-dark">
+        <tr>
+            <th style="width: 50px;">ID</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Assigned To</th>
+            <th>Value ($)</th>
+            <th>Purchase Date</th>
+            <th>Status</th>
+            <th>Unit</th>
+            <th style="width: 140px;">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var a in Model)
+        {
+            <tr>
+                <td>@a.Id</td>
+                <td class="fw-bold">@a.Name</td>
+                <td>@a.Category?.Name</td>
+                <td>@a.AssignedUser?.Name</td>
+                <td>$@a.PurchaseValue.ToString("N2")</td>
+                <td>@a.PurchaseDate.ToString("yyyy-MM-dd")</td>
+
+                <td>
+                    <span class="badge bg-success">@a.Status</span>
+                </td>
+
+                <td>@a.Unit</td>
+
+                <td>
+                    <a href="/Asset/Edit/@a.Id" class="btn btn-warning btn-sm">
+                        <i class="fa fa-edit"></i>
+                    </a>
+
+                    <a href="/Asset/Delete/@a.Id"
+                       class="btn btn-danger btn-sm"
+                       onclick="return confirm('Delete this asset?')">
+                        <i class="fa fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

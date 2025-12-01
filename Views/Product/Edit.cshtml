@@ -1,0 +1,51 @@
+﻿@model Coffee_POS.Models.Product
+@{
+    ViewBag.Title = "Edit Product";
+}
+
+<h3 class="fw-bold mb-3">Edit Product</h3>
+
+<form method="post" enctype="multipart/form-data">
+
+    <input type="hidden" name="Id" value="@Model.Id" />
+
+    <div class="row">
+
+        <div class="col-md-6">
+            <label class="form-label fw-bold">Product Name</label>
+            <input type="text" name="Name" class="form-control" value="@Model.Name" required />
+
+            <label class="form-label fw-bold mt-3">Category</label>
+            <select name="CategoryId" class="form-control">
+                @foreach (var c in ViewBag.Categories)
+                {
+                    <option value="@c.Id" selected="@(Model.CategoryId == c.Id)">
+                        @c.Name
+                    </option>
+                }
+            </select>
+        </div>
+
+        <div class="col-md-6">
+
+            <label class="form-label fw-bold mt-3">Quantity</label>
+            <input type="number" name="Qty" class="form-control" value="@Model.Qty" required />
+
+            <label class="form-label fw-bold mt-3">Product Image</label>
+            <input type="file" name="image" class="form-control" />
+
+            @if (!string.IsNullOrEmpty(Model.Image))
+            {
+                <img src="/images/products/@Model.Image" width="120" class="mt-2 rounded" />
+            }
+        </div>
+
+    </div>
+
+    <button class="btn btn-primary mt-4">
+        <i class="fa fa-save"></i> Update Product
+    </button>
+
+    <a href="/Product/Index" class="btn btn-secondary mt-4">Cancel</a>
+
+</form>

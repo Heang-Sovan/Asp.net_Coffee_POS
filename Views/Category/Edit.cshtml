@@ -1,0 +1,18 @@
+﻿@model Coffee_POS.Models.Category
+
+<h3 class="fw-bold mb-3">Edit Category</h3>
+
+<form method="post">
+
+    <input type="hidden" name="Id" value="@Model.Id" />
+
+    <label class="form-label fw-bold">Category Name</label>
+    <input type="text" name="Name" class="form-control" required value="@Model.Name" />
+
+    <button class="btn btn-primary mt-4">
+        <i class="fa fa-save"></i> Update Category
+    </button>
+
+    <a href="/Category/Index" class="btn btn-secondary mt-4">Cancel</a>
+
+</form>
