@@ -1,6 +1,8 @@
 ﻿using Coffee_POS.Models;
 using Microsoft.EntityFrameworkCore;
 
+// DbContext for the Coffee POS application
+
 namespace Coffee_POS.Data
 {
     public class AppDbContext : DbContext
